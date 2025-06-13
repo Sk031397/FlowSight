@@ -1,22 +1,25 @@
 from google.adk.agents import Agent
 from dotenv import load_dotenv
-from .subagents.configure import configure
-from .subagents.bottleneck import bottleneck
+
+# multi-agents 
+from .sub_agents.bottleneck.agent import bottleneck
+from .sub_agents.intellient.agent import intellient
+from .sub_agents.loop.agent import loop
+from .sub_agents.packrat.agent import packrat
+from .sub_agents.plugsy.agent import plugsy
+from .sub_agents.testa.agent import testa
+from .sub_agents.vizor.agent import vizor
+
 load_dotenv()
 
 root_agent = Agent(
-    name="manager",
+    name="flow",
     model="gemini-2.0-flash",
-    description="Manager agent",
-    instruction="""
-    You are a manager agent that is responsible for overseeing the work of the other agents. 
-
-    Always delegate the task to the appropriate agent. use your best judgement
-    to determine which agent to delegate to. 
-
-    You are responsible for delegating tasks to the following agent:
-    - configure
-    - bottleneck
+    description="Main orchestrator agent for FlowSight",
+    instructions="""
+        You are the main orchestrator agent responsible for coordinating other agents,
+        making intelligent routing decisions, and ensuring optimal CI/CD pipeline flow.
+        Monitor the overall pipeline health, detect risks early, and guide sub-agents as needed.
     """,
-    sub_agents=[configure,bottleneck]
-) 
+    
+)
